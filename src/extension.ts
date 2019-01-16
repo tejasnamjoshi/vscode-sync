@@ -4,12 +4,14 @@
 import { window, commands, Terminal, ExtensionContext } from "vscode";
 import { backupExtensions } from "./helpers";
 import { readList } from "./downloadSettings";
+import { uploadData } from "./saveSettings";
 
 // var request = require("request");
 export const terminal: Terminal = window.createTerminal("vscode-sync");
 
 function saveList(context: ExtensionContext) {
   backupExtensions();
+  uploadData(context);
 }
 
 export function activate(context: ExtensionContext) {

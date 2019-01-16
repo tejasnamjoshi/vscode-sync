@@ -2,7 +2,7 @@
   "name": "first",
   "displayName": "first",
   "description": "First Extension Tutorial",
-  "version": "0.0.1",
+  "version": "1.0",
   "publisher": "Tejas",
   "repository": "https://github.com/tejasnamjoshi/vscode-sync.git",
   "engines": {

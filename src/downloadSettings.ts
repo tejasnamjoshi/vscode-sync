@@ -5,7 +5,8 @@ import {
   getPassword,
   getSnippetId,
   saveState,
-  installExtensions
+  installExtensions,
+  BASE_STORAGE_PATH
 } from "./helpers";
 import { ExtensionContext } from "vscode";
 import { terminal } from "./extension";
@@ -42,13 +43,19 @@ function readSnippet(context: ExtensionContext) {
 
         if (data && data.links.clone && data.links.clone.length) {
           const cloneLink = data.links.clone[0].href;
+          const title = data.title ? data.title : "untitled-snippet";
 
           terminal.show(true);
           terminal.sendText(
-            "cd C:/Users/TejasNamjoshi/; rm -rf vscode-sync; git clone " +
+            "cd " +
+              BASE_STORAGE_PATH +
+              "; rm -rf " +
+              title +
+              "; git clone " +
               cloneLink
           );
-          setTimeout(() => installExtensions(), 5000);
+          const docPath = BASE_STORAGE_PATH + title + "/extensions.list";
+          setTimeout(() => installExtensions(docPath), 5000);
         }
       });
     });

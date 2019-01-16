@@ -1,6 +1,8 @@
 import { window, workspace, ExtensionContext } from "vscode";
 import { terminal } from "./extension";
 
+export const BASE_STORAGE_PATH = "C:/Users/TejasNamjoshi/";
+
 export function getPassword() {
   const options = {
     placeHolder: "Enter Password",
@@ -33,15 +35,15 @@ export function getSnippetId() {
  * Backups the extensions in extensions.list file
  */
 export function backupExtensions() {
-  terminal.sendText("code --list-extensions > extensions.list");
+  terminal.sendText(
+    "code --list-extensions > " + BASE_STORAGE_PATH + "extensions.list"
+  );
 }
 
 /**
  * Install extensions from extensions.list file
  */
-export function installExtensions() {
-  const docPath = "C:/Users/TejasNamjoshi/vscode-sync/extensions.list";
-
+export function installExtensions(docPath: string) {
   workspace.openTextDocument(docPath).then(document => {
     let text: string = document.getText();
     let extensions: string[] = text.split("\n");
