@@ -4,6 +4,7 @@
   "description": "First Extension Tutorial",
   "version": "0.0.1",
   "publisher": "Tejas",
+  "repository": "https://github.com/tejasnamjoshi/vscode-sync.git",
   "engines": {
     "vscode": "^1.29.0"
   },
