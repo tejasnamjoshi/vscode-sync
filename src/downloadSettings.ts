@@ -8,10 +8,11 @@ import {
   installExtensions,
   BASE_STORAGE_PATH
 } from "./helpers";
-import { ExtensionContext } from "vscode";
+import { ExtensionContext, window } from "vscode";
 import { terminal } from "./extension";
 
 function readSnippet(context: ExtensionContext) {
+  terminal.show(true);
   const username = context.workspaceState.get("username");
   const password = context.workspaceState.get("password");
 
@@ -54,14 +55,23 @@ function readSnippet(context: ExtensionContext) {
               "; git clone " +
               cloneLink
           );
-          const docPath = BASE_STORAGE_PATH + title + "/extensions.list";
-          setTimeout(() => installExtensions(docPath), 5000);
+          setTimeout(() => {
+            const docPath = BASE_STORAGE_PATH + title + "/extensions.list";
+            terminal.sendText(
+              "cp -r launch.json settings.json tasks.json " +
+                BASE_STORAGE_PATH +
+                title +
+                " ../.vscode/"
+            );
+            setTimeout(() => installExtensions(docPath), 5000);
+          }, 2000);
         }
       });
     });
 
     req.on("error", function(e: any) {
       console.log("problem with request: " + e.message);
+      window.showInformationMessage("An Error occurred." + e.message);
     });
 
     // write data to request body

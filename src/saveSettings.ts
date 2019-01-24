@@ -5,6 +5,7 @@ import { terminal } from "./extension";
 import { BASE_STORAGE_PATH } from "./helpers";
 
 function saveSnippet(context: ExtensionContext) {
+  terminal.show(true);
   const username = context.workspaceState.get("username");
   const password = context.workspaceState.get("password");
 
@@ -33,7 +34,6 @@ function saveSnippet(context: ExtensionContext) {
       if (data && data.links.clone && data.links.clone.length) {
         const cloneLink = data.links.clone[0].href;
 
-        terminal.show(true);
         terminal.sendText(
           "cd " +
             BASE_STORAGE_PATH +
@@ -47,6 +47,12 @@ function saveSnippet(context: ExtensionContext) {
             "mv " +
               BASE_STORAGE_PATH +
               "extensions.list " +
+              BASE_STORAGE_PATH +
+              title +
+              ";" +
+              "cp -r " +
+              BASE_STORAGE_PATH +
+              "/../.vscode " +
               BASE_STORAGE_PATH +
               title +
               ";" +

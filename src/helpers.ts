@@ -1,7 +1,7 @@
 import { window, workspace, ExtensionContext } from "vscode";
 import { terminal } from "./extension";
 
-export const BASE_STORAGE_PATH = "C:/Users/TejasNamjoshi/";
+export const BASE_STORAGE_PATH = __dirname.replace(/\\/g, "/") + "/";
 
 export function getPassword() {
   const options = {
@@ -44,18 +44,21 @@ export function backupExtensions() {
  * Install extensions from extensions.list file
  */
 export function installExtensions(docPath: string) {
-  workspace.openTextDocument(docPath).then(document => {
-    let text: string = document.getText();
-    let extensions: string[] = text.split("\n");
-    delete extensions[extensions.length - 1]; // Remove last element which is ""
+  workspace.openTextDocument(docPath).then(
+    document => {
+      let text: string = document.getText();
+      let extensions: string[] = text.split("\n");
+      delete extensions[extensions.length - 1]; // Remove last element which is ""
 
-    extensions.map((extension: string) => {
-      console.log("Installing --- " + extension);
-      terminal.sendText("code --install-extension " + extension);
-    });
+      extensions.map((extension: string) => {
+        console.log("Installing --- " + extension);
+        terminal.sendText("code --install-extension " + extension);
+      });
 
-    // commands.executeCommand("workbench.action.reloadWindow");
-  });
+      // commands.executeCommand("workbench.action.reloadWindow");
+    },
+    error => console.log(error)
+  );
 }
 
 export function saveState(context: ExtensionContext, key: string, value: any) {
