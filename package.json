@@ -20,11 +20,11 @@
     "commands": [
       {
         "command": "extension.readExtensionsList",
-        "title": "Read Extensions"
+        "title": "Read Configuration"
       },
       {
         "command": "extension.saveExtensionsList",
-        "title": "Save Extensions"
+        "title": "Save Configuration"
       }
     ]
   },
