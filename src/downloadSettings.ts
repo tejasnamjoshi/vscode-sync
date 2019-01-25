@@ -1,4 +1,5 @@
 var https = require("https");
+var fs = require("fs");
 
 import {
   getUserName,
@@ -55,14 +56,19 @@ function readSnippet(context: ExtensionContext) {
               "; git clone " +
               cloneLink
           );
+          let settingsPath = process.env.APPDATA + "/Code/User/settings.json";
+          if (!fs.existsSync(settingsPath)) {
+            settingsPath =
+              process.env.HOME +
+              "/Library/Application Support/Code/User/settings.json";
+          }
+
+          if (settingsPath) {
+            settingsPath = settingsPath.replace(/\\/g, "/");
+          }
           setTimeout(() => {
             const docPath = BASE_STORAGE_PATH + title + "/extensions.list";
-            terminal.sendText(
-              "cp -r launch.json settings.json tasks.json " +
-                BASE_STORAGE_PATH +
-                title +
-                " ../.vscode/"
-            );
+            terminal.sendText("cp -r settings.json " + settingsPath);
             setTimeout(() => installExtensions(docPath), 5000);
           }, 2000);
         }

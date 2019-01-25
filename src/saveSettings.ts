@@ -1,5 +1,6 @@
 import { ExtensionContext } from "vscode";
 var https = require("https");
+var fs = require("fs");
 
 import { terminal } from "./extension";
 import { BASE_STORAGE_PATH } from "./helpers";
@@ -42,6 +43,18 @@ function saveSnippet(context: ExtensionContext) {
             "; git clone " +
             cloneLink
         );
+
+        let settingsPath = process.env.APPDATA + "/Code/User/settings.json";
+        if (!fs.existsSync(settingsPath)) {
+          settingsPath =
+            process.env.HOME +
+            "/Library/Application Support/Code/User/settings.json";
+        }
+
+        if (settingsPath) {
+          settingsPath = settingsPath.replace(/\\/g, "/");
+        }
+
         setTimeout(() => {
           terminal.sendText(
             "mv " +
@@ -51,8 +64,8 @@ function saveSnippet(context: ExtensionContext) {
               title +
               ";" +
               "cp -r " +
-              BASE_STORAGE_PATH +
-              "/../.vscode " +
+              settingsPath +
+              " " +
               BASE_STORAGE_PATH +
               title +
               ";" +
