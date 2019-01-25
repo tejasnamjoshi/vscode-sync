@@ -58,9 +58,7 @@ function readSnippet(context: ExtensionContext) {
           );
           let settingsPath = process.env.APPDATA + "/Code/User/settings.json";
           if (!fs.existsSync(settingsPath)) {
-            settingsPath =
-              process.env.HOME +
-              "/Library/Application Support/Code/User/settings.json";
+            settingsPath = process.env.HOME + ".config/Code/User/settings.json";
           }
 
           if (settingsPath) {
@@ -68,7 +66,11 @@ function readSnippet(context: ExtensionContext) {
           }
           setTimeout(() => {
             const docPath = BASE_STORAGE_PATH + title + "/extensions.list";
-            terminal.sendText("cp -r settings.json " + settingsPath);
+            const settingsFetchPath =
+              BASE_STORAGE_PATH + title + "/settings.json";
+            terminal.sendText(
+              "cp -r " + settingsFetchPath + " " + settingsPath
+            );
             setTimeout(() => installExtensions(docPath), 5000);
           }, 2000);
         }
