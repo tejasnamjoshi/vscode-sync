@@ -1,7 +1,20 @@
 import { window, workspace, ExtensionContext } from "vscode";
 import { terminal } from "./extension";
+var fs = require("fs");
 
-export const BASE_STORAGE_PATH = __dirname.replace(/\\/g, "/") + "/";
+export var BASE_STORAGE_PATH = "";
+
+export function setBasePath() {
+  if (fs.existsSync(process.env.APPDATA)) {
+    BASE_STORAGE_PATH = process.env.APPDATA
+      ? process.env.APPDATA.replace(/\\/g, "/") + "/"
+      : "";
+  } else {
+    BASE_STORAGE_PATH = process.env.HOME
+      ? process.env.HOME.replace(/\\/g, "/") + "/"
+      : "";
+  }
+}
 
 export function getPassword() {
   const options = {

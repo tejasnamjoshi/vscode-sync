@@ -2,7 +2,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import { window, commands, Terminal, ExtensionContext } from "vscode";
-import { backupExtensions } from "./helpers";
+import { backupExtensions, setBasePath } from "./helpers";
 import { readList } from "./downloadSettings";
 import { uploadData } from "./saveSettings";
 
@@ -15,6 +15,8 @@ function saveList(context: ExtensionContext) {
 }
 
 export function activate(context: ExtensionContext) {
+  setBasePath();
+
   let disposable = commands.registerCommand(
     "extension.readExtensionsList",
     () => {

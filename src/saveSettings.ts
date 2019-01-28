@@ -46,9 +46,7 @@ function saveSnippet(context: ExtensionContext) {
 
         let settingsPath = process.env.APPDATA + "/Code/User/settings.json";
         if (!fs.existsSync(settingsPath)) {
-          settingsPath =
-            process.env.HOME +
-            "/Library/Application Support/Code/User/settings.json";
+          settingsPath = process.env.HOME + ".config/Code/User/settings.json";
         }
 
         if (settingsPath) {
